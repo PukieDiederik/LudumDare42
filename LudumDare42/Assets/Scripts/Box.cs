@@ -37,19 +37,19 @@ public class Box : MonoBehaviour {
 		switch(direction)
 		{
 			case 0:
-			  BreakBox(new Vector2Int(position.x, position.y + 1)); //up
+			  BreakBoxAt(new Vector2Int(position.x, position.y + 1)); //up
 			  break;
 			
 			case 1:
-			  BreakBox(new Vector2Int(position.x, position.y - 1)); //down
+			  BreakBoxAt(new Vector2Int(position.x, position.y - 1)); //down
 			  break;
 
 			case 2:
-			  BreakBox(new Vector2Int(position.x - 1, position.y + 1)); //left
+			  BreakBoxAt(new Vector2Int(position.x - 1, position.y + 1)); //left
 			  break;
 
 			case 3:
-			  BreakBox(new Vector2Int(position.x + 1, position.y)); //right
+			  BreakBoxAt(new Vector2Int(position.x + 1, position.y)); //right
 			  break;
 
 			default:
