@@ -12,20 +12,22 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		grid = new int[width, height];
+		/*grid = new int[width, height];
         tiles = new GameObject[width, height];
 
+         
         //fill tiles with tile objects and set the grid value to 0
         for(int x = 0; x < width; x++) {
             for(int y =0; y < height; y++) {
                 tiles[x, y] = Instantiate(tile, new Vector2(x, y), Quaternion.identity, this.transform);
                 grid[x, y] = 0;
             }
-        }
+        }*/
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+
 	}
 }
