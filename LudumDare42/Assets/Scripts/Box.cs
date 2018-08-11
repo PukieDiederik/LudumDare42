@@ -15,7 +15,7 @@ public class Box : MonoBehaviour {
 		Debug.Log("[Spawnbox] spawning box at: " + position);
 
 		//instantiates the box and fills it in in the boxes array
-		boxes[position.x, position.y] = Instantiate(box, new Vector3(position.x, position.y, 0), Quaternion.identity, parentTransform);
+		boxes[position.x, position.y] = Instantiate(box, new Vector3(position.x + 0.5f, position.y + 0.5f, 0), Quaternion.identity, parentTransform);
 		}
 	}
 
@@ -45,7 +45,7 @@ public class Box : MonoBehaviour {
 			  break;
 
 			case 2:
-			  BreakBoxAt(new Vector2Int(position.x - 1, position.y + 1)); //left
+			  BreakBoxAt(new Vector2Int(position.x - 1, position.y)); //left
 			  break;
 
 			case 3:

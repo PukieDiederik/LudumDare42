@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-<<<<<<< HEAD
 	void Update () 
     {
 		currentSpawnDelay -= Time.deltaTime;
@@ -40,12 +39,7 @@ public class GameManager : MonoBehaviour {
             GenerateBoxes(3);
             currentSpawnDelay = boxSpawnDelay;
         }
-=======
-	void Update () {
-		
->>>>>>> Art
-
-	}
+    }
 
     //generates the boxes
     void GenerateBoxes(int amount)
