@@ -28,6 +28,19 @@ public class GameManager : MonoBehaviour {
             //Debug.Log(score);
         }
     }
+    
+
+    //Overlay Menus
+    public GameObject DeathMenu;    //The death menu that appears when the player dies
+    public GameObject highscoreInput;   //The field in which you can input you new highscore data
+    public GameObject Leaderboard;      //leaderboard panel
+    public Text nameInput;        //NAme input for highscore submition.
+    //Highscore labels
+    //scores
+    public Text[] highscores = new Text[5];
+    //names
+    public Text[] names = new Text[5];
+
 
     // Use this for initialization
     void Start() {
@@ -69,5 +82,28 @@ public class GameManager : MonoBehaviour {
         score += 1;
         scoreText.text = score.ToString();
         //Debug.Log("IncrementScore by 1");
+    }
+
+    //What to do when the player dies by blunt force
+    public void Die() {
+        CancelInvoke("IncrementScore");
+        //TODO STop box spawning
+        DeathMenu.SetActive(true);
+        if(score > ScoreBoardManager.scores[4].score) {
+            highscoreInput.SetActive(true);
+        }
+    }
+    public void SubmitHighscore() {
+        ScoreBoardManager.SaveScore(new ScoreBoardManager.Score(score, nameInput.text));
+        highscoreInput.SetActive(false);
+        Leaderboard.SetActive(true);
+
+        //set Highscore labels
+        for(int i= 0; i < 5; i++) {
+            highscores[i].text = (i + 1) +"  " + ScoreBoardManager.scores[i].score.ToString();
+            names[i].text = ScoreBoardManager.scores[i].name.ToString();
+        }
+        
+        
     }
 }
