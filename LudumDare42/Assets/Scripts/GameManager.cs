@@ -9,6 +9,12 @@ public class GameManager : MonoBehaviour {
     public static int[,] grid;	//The grid where all the info about the boxes and players is stored
     public static GameObject[,] tiles;  //The tile grid
 	
+    //delay stuff for spawning the boxes
+    public static float boxSpawnDelay = 5f;
+    float currentSpawnDelay = 5f;
+
+    public Transform boxesParent;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -25,7 +31,22 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update () 
+    {
+		currentSpawnDelay -= Time.deltaTime;
+        if (currentSpawnDelay < 0) {
+            GenerateBoxes(3);
+            currentSpawnDelay = boxSpawnDelay;
+        }
+
 	}
+
+    //generates the boxes
+    void GenerateBoxes(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            Box.SpawnAt(new Vector2Int(Random.Range(0,width), Random.Range(0,height)), Box.boxTypes[Random.Range(0,Box.boxTypes.Length - 1)], boxesParent);
+        }
+    }
 }
