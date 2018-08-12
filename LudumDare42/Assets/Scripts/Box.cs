@@ -79,6 +79,7 @@ public class Box : MonoBehaviour {
 
 		//makes sure that boxes[x,y] is empty
 		boxes[position.x, position.y] = null;
+        GameManager.Score += 10;
 	}
 
 	//breaks a box from a given direction
