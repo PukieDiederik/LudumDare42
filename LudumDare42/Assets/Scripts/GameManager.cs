@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public static float boxSpawnDelay = 5f;
     float currentSpawnDelay = 5f;
 
-    public Transform boxesParent;
+    public GameObject box;
     
 
 	// Use this for initialization
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour {
     {
         for (int i = 0; i < amount; i++)
         {
-            Box.SpawnAt(new Vector2Int(Random.Range(0,width), Random.Range(0,height)), Box.boxTypes[Random.Range(0,Box.boxTypes.Length - 1)], boxesParent);
+            Box.SpawnAt(new Vector2Int(Random.Range(0,width), Random.Range(0,height)),Box.boxTypes[Random.Range(0,Box.boxTypes.Length - 1)], 2f);
         }
     }
 }

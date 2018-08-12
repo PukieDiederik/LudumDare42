@@ -4,18 +4,68 @@ using UnityEngine;
 
 public class Box : MonoBehaviour {
 
-	public static GameObject[] boxTypes = Resources.LoadAll<GameObject>("Boxes"); //loads all boxes at assets/Resources/Boxes, this makes it easier to add diferent types of boxes
+	public static GameObject[] boxTypes;//loads all boxes at assets/Resources/Boxes, this makes it easier to add diferent types of boxes
 	public static GameObject[,] boxes = new GameObject[GameManager.width, GameManager.height];
 
+	static List<GameObject> toInstantiate = new List<GameObject>();
+	static List<GameObject> shadows = new List<GameObject>();
+	public GameObject crateShadowInspector;
+	public static GameObject crateShadow;
+
+	public static float spawnDelay;
+
+	void Start()
+	{
+		crateShadow = crateShadowInspector;
+		boxTypes = Resources.LoadAll<GameObject>("Boxes"); 
+	}
+
+	public void Update()
+	{
+		spawnDelay -= Time.deltaTime;
+		WaitForSpawning();
+	}
+
+
 	//will spawn a box at the given position with the given prefab, also have a parent for sorting reasons
-	public static void SpawnAt(Vector2Int position, GameObject box, Transform parentTransform)
+	public static void SpawnAt(Vector2Int position, GameObject box, float delay)
 	{
 		//checks if there is already a box at the given position, if not one will be instantiated
-		if (boxes[position.x,position.y] == null){
-		Debug.Log("[Spawnbox] spawning box at: " + position);
+		if (boxes[position.x,position.y] == null)
+		{
+			spawnDelay = delay;
+			Debug.Log("Spawning box at: " + position);
 
-		//instantiates the box and fills it in in the boxes array
-		boxes[position.x, position.y] = Instantiate(box, new Vector3(position.x + 0.5f, position.y + 0.5f, 0), Quaternion.identity, parentTransform);
+			toInstantiate.Add(box);
+			toInstantiate[toInstantiate.Count - 1].transform.position = new Vector3(position.x,position.y,0); 
+
+			Debug.Log(toInstantiate[toInstantiate.Count - 1].transform.position);
+
+			InstantiateShadow(position);
+		}
+	}
+
+	void WaitForSpawning()
+	{
+		if (spawnDelay < 0 && toInstantiate.Count != 0)
+		{
+			int i = 0;
+			while (true){
+				Vector2 position = 	new Vector2(toInstantiate[0].transform.position.x,toInstantiate[0].transform.position.y);
+
+				Debug.Log("Creating box at" + position);
+
+				//instantiates the box and fills it in in the boxes array
+				boxes[(int)position.x, (int)position.y] = Instantiate(toInstantiate[0], shadows[0].transform.position, Quaternion.identity);
+				toInstantiate.RemoveAt(0);
+				
+				Destroy(shadows[0]);
+				shadows.RemoveAt(0);
+				Debug.Log(shadows.Count);
+
+				i++;
+				if (toInstantiate.Count == 0) {break;}
+			}
 		}
 	}
 
@@ -58,4 +108,8 @@ public class Box : MonoBehaviour {
 		}
 	}
 
+	static void InstantiateShadow (Vector2Int position)
+	{
+		shadows.Add(Instantiate(crateShadow ,new Vector3(position.x + 0.5f,position.y + 0.5f , 0),Quaternion.identity));
+	}
 }
