@@ -57,7 +57,9 @@ public class GameManager : MonoBehaviour {
     {
         if (!PlayerController.isDead) { 
             for (int i = 0; i < amount; i++) {
-                Box.SpawnAt(new Vector2Int(Random.Range(0, width), Random.Range(0, height)), Box.boxTypes[Random.Range(0, Box.boxTypes.Length - 1)], 2f);
+                Vector2Int position = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
+                Debug.Log("Player:" + PlayerController.pos.ToString() + ", Crate:" + position.ToString());
+                Box.SpawnAt(position, Box.boxTypes[Random.Range(0, Box.boxTypes.Length - 1)], 2f);
             }
         }
     }
@@ -72,9 +74,9 @@ public class GameManager : MonoBehaviour {
     //What to do when the player dies by blunt force
     public void Die() {
         if (!PlayerController.hasShield) {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = false;
             PlayerController.isDead = true;
             CancelInvoke("IncrementScore");
-            //TODO STop box spawning
             DeathMenu.SetActive(true);
             if (score > ScoreBoardManager.scores[4].score) {
                 highscoreInput.SetActive(true);
@@ -114,9 +116,10 @@ public class GameManager : MonoBehaviour {
         PlayerController.hasShield = false;
         PlayerController.pos = new Vector2Int(0, 0);
         GameObject.FindGameObjectWithTag("Player").transform.position = new Vector2(.5f, .5f);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = true;
 
         //Clear the playing field
-        for(int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Destroy(Box.boxes[x, y]);
                 Box.boxes[x, y] = null;
