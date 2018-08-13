@@ -19,10 +19,14 @@ public class Box : MonoBehaviour {
 	
     public GameManager gm;  //THe gamemanager needed for the death method
 
-	void Start()
+    public AudioSource crateBreakSound;
+    static AudioSource cbSound;
+
+    void Start()
 	{
 		crateShadow = crateShadowInspector;
-		boxTypes = Resources.LoadAll<GameObject>("Boxes"); 
+		boxTypes = Resources.LoadAll<GameObject>("Boxes");
+        cbSound = crateBreakSound;
 	}
 
 	public void Update()
@@ -80,6 +84,7 @@ public class Box : MonoBehaviour {
 	//breaks a box at a given position and a certain direction
 	public static void BreakBoxAt(Vector2Int position)
 	{
+        cbSound.Play();
 		if (breakTimer < 0 && boxes[position.x,position.y] != null)
 		{		
 			//actually destroys the box gameobject

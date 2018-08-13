@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour {
     //names
     public Text[] names = new Text[5];
 
+    //audiosources
+    public AudioSource playerDeathSound;
+
 
     // Use this for initialization
     void Start() {
@@ -74,6 +77,7 @@ public class GameManager : MonoBehaviour {
     //What to do when the player dies by blunt force
     public void Die() {
         if (!PlayerController.hasShield) {
+            playerDeathSound.Play();
             GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = false;
             PlayerController.isDead = true;
             CancelInvoke("IncrementScore");
