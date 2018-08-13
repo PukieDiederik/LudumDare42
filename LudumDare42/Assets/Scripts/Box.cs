@@ -40,12 +40,9 @@ public class Box : MonoBehaviour {
 		if (boxes[position.x,position.y] == null)
 		{
 			spawnDelay = delay;
-			Debug.Log("Spawning box at: " + position);
 
 			toInstantiate.Add(box);
 			toInstantiate[toInstantiate.Count - 1].transform.position = new Vector3(position.x,position.y,0); 
-
-			Debug.Log(toInstantiate[toInstantiate.Count - 1].transform.position);
 
 			InstantiateShadow(position);
 		}
@@ -90,9 +87,8 @@ public class Box : MonoBehaviour {
 
 			//makes sure that boxes[x,y] is empty
 			boxes[position.x, position.y] = null;
-			GameManager.Score += 10;
-			Debug.Log(GameManager.Score);
-			Debug.Log("added +10 score");
+			GameManager.score += 10;
+            GameManager.scoreText.text = GameManager.score.ToString();
 
 			breakTimer = breakDelay;
 		}

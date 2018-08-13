@@ -13,7 +13,6 @@ public class ScoreBoardManager : MonoBehaviour {
         scores.Add(new Score(PlayerPrefs.GetInt("hs2"), PlayerPrefs.GetString("hsn2")));
         scores.Add(new Score(PlayerPrefs.GetInt("hs3"), PlayerPrefs.GetString("hsn3")));
         scores.Add(new Score(PlayerPrefs.GetInt("hs4"), PlayerPrefs.GetString("hsn4")));
-        Debug.Log(scores.Count);
     }
 
     public static void SaveScore(Score score) {

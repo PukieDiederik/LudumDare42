@@ -18,16 +18,7 @@ public class GameManager : MonoBehaviour {
     public GameObject box;
 
     //Scores
-    private static int score = 0;   //Current score
-    public static int Score {       //Score editor
-        get {
-            return score;
-        }
-        set {
-            score += value;                     //Set the score
-            scoreText.text = score.ToString();  //Update Label
-        }
-    }   
+    public static int score = 0;   //Current score
 
     //Overlay Menus
     public GameObject DeathMenu;        //The death menu that appears when the player dies
