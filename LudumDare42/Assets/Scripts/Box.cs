@@ -7,22 +7,23 @@ public class Box : MonoBehaviour {
 	public static GameObject[] boxTypes;//loads all boxes at assets/Resources/Boxes, this makes it easier to add diferent types of boxes
 	public static GameObject[,] boxes = new GameObject[GameManager.width, GameManager.height];
 
-	static List<GameObject> toInstantiate = new List<GameObject>();
-	public static List<GameObject> shadows = new List<GameObject>();
-	public GameObject crateShadowInspector;
-	public static GameObject crateShadow;
-	
+
+	static List<GameObject> toInstantiate = new List<GameObject>();     //To be instantiated objectss
+	public static List<GameObject> shadows = new List<GameObject>();    //The shadows in the game
+	public GameObject crateShadowInspector;                             //TODO:: give comment
+	public static GameObject crateShadow;                               //TODO:: give comment
+
 	public GameObject boosterInspector;
 
 	[Range(0,100)]public static int boosterPercentage = 50;
 	public static GameObject booster;
 	public static GameObject[,] boosters = new GameObject[GameManager.width,GameManager.height];
 
-	public static float spawnDelay;
 
-	public static float breakDelay = 1f;
-	public static float breakTimer = 1f;
-	
+    public static float spawnDelay; //TODO:: give comment
+    public static float breakDelay = .5f;    //TODO:: give comment
+    public static float breakTimer = .5f;    //TODO:: give comment
+
     public GameManager gm;  //THe gamemanager needed for the death method
 	public static GameObject player;
 
@@ -64,7 +65,7 @@ public class Box : MonoBehaviour {
 
 	void WaitForSpawning()
 	{
-		if (spawnDelay < 0 && toInstantiate.Count != 0)
+		if (spawnDelay <= 0 && toInstantiate.Count > 0)
 		{
 			int i = 0;
 			while (true){
@@ -93,9 +94,10 @@ public class Box : MonoBehaviour {
 	//breaks a box at a given position and a certain direction
 	public static void BreakBoxAt(Vector2Int position)
 	{
-        
-		if (breakTimer < 0 && boxes[position.x,position.y] != null)
+        Debug.Log(breakTimer);
+		if (breakTimer < 0 && position.x >= 0 && position.x < GameManager.width && position.y >= 0 && position.y < GameManager.height && boxes[position.x,position.y] != null)
 		{
+            Debug.Log("BReaking");
             cbSound.Play();
             //actually destroys the box gameobject
             Destroy(boxes[position.x, position.y]);

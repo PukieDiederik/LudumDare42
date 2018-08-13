@@ -13,8 +13,9 @@ public class GameManager : MonoBehaviour {
     public static Text scoreText;       //Textbox where the score will be displayed
 
     //Boxes
-    public static float boxSpawnDelay = 5f; //how long to wait for the next boxes
-    float currentSpawnDelay = 5f;
+    public static float boxSpawnDelay =3.5f; //how long to wait for the next boxes
+    float spawnSpeed = 2f;
+    float currentSpawnDelay = 1f;
     public GameObject box;
 
     //Scores
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour {
         scoreText = text;   //Set the static score text to the right ui element
         //Start lineair time score icrementing
         InvokeRepeating("IncrementScore", 1, 1);
+        InvokeRepeating("SpeedUp", 1, 5);
 
     }
 
@@ -56,15 +58,21 @@ public class GameManager : MonoBehaviour {
     }
 
     //generates the boxes
-    void GenerateBoxes(int amount)
-    {
+    void GenerateBoxes(int amount) {
         if (!PlayerController.isDead) { 
             for (int i = 0; i < amount; i++) {
                 Vector2Int position = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
-                Debug.Log("Player:" + PlayerController.pos.ToString() + ", Crate:" + position.ToString());
-                Box.SpawnAt(position, Box.boxTypes[Random.Range(0, Box.boxTypes.Length - 1)], 2f);
+                Box.SpawnAt(position, Box.boxTypes[Random.Range(0, Box.boxTypes.Length - 1)], .4f);
+                //Debug.Log("Spawning");
             }
         }
+    }
+    //Speeds up the spawn rate of the crates
+    void SpeedUp() {
+        boxSpawnDelay -= .1f;
+        if (spawnSpeed >= boxSpawnDelay) { spawnSpeed -= .051f; }
+        Mathf.Clamp(boxSpawnDelay, 1f, 100);
+        //Debug.Log(boxSpawnDelay);
     }
 
     //Increments the score every so many seconds
@@ -81,6 +89,7 @@ public class GameManager : MonoBehaviour {
             GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().enabled = false;
             PlayerController.isDead = true;
             CancelInvoke("IncrementScore");
+            CancelInvoke("SpeedUp");
             DeathMenu.SetActive(true);
             if (score > ScoreBoardManager.scores[4].score) {
                 highscoreInput.SetActive(true);
@@ -113,6 +122,7 @@ public class GameManager : MonoBehaviour {
         score = 0;
         scoreText.text = 0.ToString();
         nameInput.text = "";
+        boxSpawnDelay = 3f;
 
         //TODO:: reset all values
         //Reset player values
@@ -141,7 +151,10 @@ public class GameManager : MonoBehaviour {
 
         //Restart Coroutines
         InvokeRepeating("IncrementScore", 1, 1);
+        InvokeRepeating("SpeedUp", 1, 1);
 
         Debug.Log("Restarted");
     }
+
+
 }
