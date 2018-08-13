@@ -14,6 +14,8 @@ public class Box : MonoBehaviour {
 
 	public static float spawnDelay;
 
+    public GameManager gm;  //THe gamemanager needed for the death method
+
 	void Start()
 	{
 		crateShadow = crateShadowInspector;
@@ -51,8 +53,12 @@ public class Box : MonoBehaviour {
 		{
 			int i = 0;
 			while (true){
-				//instantiates the box and fills it in in the boxes array
-				boxes[(int)shadows[0].transform.position.x, (int)shadows[0].transform.position.y] = Instantiate(toInstantiate[0], shadows[0].transform.position, Quaternion.identity);
+                //instantiates the box and fills it in in the boxes array
+                Vector2Int pos = new Vector2Int((int)shadows[0].transform.position.x, (int)shadows[0].transform.position.y);
+                if(PlayerController.pos == pos) {
+                    gm.Die();
+                }
+				boxes[pos.x, pos.y] = Instantiate(toInstantiate[0], shadows[0].transform.position, Quaternion.identity);
 				toInstantiate.RemoveAt(0);
 				
 				Destroy(shadows[0]);
