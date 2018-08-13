@@ -7,17 +7,25 @@ public class Box : MonoBehaviour {
 	public static GameObject[] boxTypes;//loads all boxes at assets/Resources/Boxes, this makes it easier to add diferent types of boxes
 	public static GameObject[,] boxes = new GameObject[GameManager.width, GameManager.height];
 
+
 	static List<GameObject> toInstantiate = new List<GameObject>();     //To be instantiated objectss
 	public static List<GameObject> shadows = new List<GameObject>();    //The shadows in the game
 	public GameObject crateShadowInspector;                             //TODO:: give comment
 	public static GameObject crateShadow;                               //TODO:: give comment
 
-    public static float spawnDelay; //TODO:: give comment
+	public GameObject boosterInspector;
 
+	[Range(0,100)]public static int boosterPercentage = 50;
+	public static GameObject booster;
+	public static GameObject[,] boosters = new GameObject[GameManager.width,GameManager.height];
+
+
+    public static float spawnDelay; //TODO:: give comment
     public static float breakDelay = .5f;    //TODO:: give comment
     public static float breakTimer = .5f;    //TODO:: give comment
 
     public GameManager gm;  //THe gamemanager needed for the death method
+	public static GameObject player;
 
     public AudioSource crateBreakSound;
     static AudioSource cbSound;
@@ -27,6 +35,8 @@ public class Box : MonoBehaviour {
 		crateShadow = crateShadowInspector;
 		boxTypes = Resources.LoadAll<GameObject>("Boxes");
         cbSound = crateBreakSound;
+		booster = boosterInspector;
+		player = GameObject.Find("Player");
 	}
 
 	public void Update()
@@ -34,6 +44,7 @@ public class Box : MonoBehaviour {
 		breakTimer -= Time.deltaTime;
 		spawnDelay -= Time.deltaTime;
 		WaitForSpawning();
+		CheckForBooster(new Vector2Int((int)player.transform.position.x,(int) player.transform.position.y));
 	}
 
 
@@ -77,7 +88,6 @@ public class Box : MonoBehaviour {
 
 	public bool CanBreakBoxAt(Vector2 playerPosition, Vector2 position)
 	{
-
 		return false;
 	}
 
@@ -98,8 +108,26 @@ public class Box : MonoBehaviour {
             GameManager.scoreText.text = GameManager.score.ToString();
 
 			breakTimer = breakDelay;
+
+			float boosterPerc = Random.Range(0,100);
+
+			if (boosterPerc < boosterPercentage)
+			{
+				boosters[position.x,position.y] = Instantiate(booster, new Vector3(position.x + 0.5f,position.y + 0.5f,0), Quaternion.identity);
+			}
 		}
 	}
+
+	public static void CheckForBooster(Vector2Int position)
+	{
+		if (boosters[position.x,position.y])
+		{
+			Debug.Log("Picked up booster");
+			Booster.OnPickup();
+			Destroy(boosters[position.x,position.y].gameObject);
+			boosters[position.x,position.y] = null; 
+		}
+	} 
 
 	//breaks a box from a given direction
 	public static void BreakBoxFromDirection(Vector2Int position, int direction)

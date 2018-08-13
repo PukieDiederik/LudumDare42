@@ -5,10 +5,12 @@ using UnityEngine;
 enum BoosterTypes { Speed, SuperBreak, Shield}
 public class Booster : MonoBehaviour {
     
-    BoosterTypes bt = BoosterTypes.Speed;        //Booster type
+    static BoosterTypes bt = BoosterTypes.Speed;        //Booster type
 
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    public static void OnPickup() {
+        bt = (BoosterTypes) Random.Range(0,2);
+
         switch (bt) {
             case BoosterTypes.Speed:
                 SpeedBooster();
@@ -19,9 +21,14 @@ public class Booster : MonoBehaviour {
             case BoosterTypes.Shield:
                 ShieldBooster();
                 break;
+            default:
+                Debug.LogError(bt);
+                break;
         }
     }
-    IEnumerator SpeedBooster() {
+    static IEnumerator SpeedBooster() {
+        Debug.Log("speedbooster");
+
         PlayerController.speed *= .75f;     //Make te speed slightly faster
         yield return new WaitForSeconds(5); //Wait for 5 seconds
         PlayerController.speed /= .75f;     //reset the player speed
