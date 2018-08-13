@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 enum Directions { North, East, South, West}
 public class PlayerController : MonoBehaviour {
-    SpriteRenderer sr;      //reference to the sprite renderer
-    public Sprite[] sprites = new Sprite[4];   //Directional sprites, can be adjusted for extra player sprites
-    float speed = .15f;     //MovementSpeed
-    float timer = 0;        //Timer for the next movement  
-    Directions dir = Directions.North;         //The direction in which the player is facing
+    SpriteRenderer sr;                          //reference to the sprite renderer
+    public Sprite[] sprites = new Sprite[4];    //Directional sprites, can be adjusted for extra player sprites
+    public static float speed = .15f;           //MovementSpeed
+    float timer = 0;                            //Timer for the next movement  
+    Directions dir = Directions.North;          //The direction in which the player is facing
     private void Start() {
         sr = this.GetComponent<SpriteRenderer>();
     }
