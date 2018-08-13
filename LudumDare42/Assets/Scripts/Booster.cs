@@ -27,10 +27,23 @@ public class Booster : MonoBehaviour {
         PlayerController.speed /= .75f;     //reset the player speed
     }
     void SuperBreakerBooster() {
-        //TODO:: Implement breaking of boxes around player
+        //Break crates around the player around player
+        int startX = PlayerController.pos.x - 1;
+        int startY = PlayerController.pos.y - 1;
+
+        for (int x = startX < 0 ? 0 : startX; x < PlayerController.pos.x + 1 && x < GameManager.width; x++) {
+            for(int y = startY < 0 ? 0 : startY; y < PlayerController.pos.y + 1 && x < GameManager.height; y++) {
+                if(Box.boxes[x, y]) {
+                    Box.BreakBoxAt(new Vector2Int(x, y));
+                }
+            }
+        }
         
     }
-    void ShieldBooster() {
-        //TODO:: Give shield for 15 seconds
+    IEnumerator ShieldBooster() {
+        //Break crates in a circle around the player
+        PlayerController.hasShield = true;
+        yield return new WaitForSeconds(20);
+        PlayerController.hasShield = false;
     }
 }

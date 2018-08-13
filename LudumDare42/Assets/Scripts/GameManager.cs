@@ -98,7 +98,9 @@ public class GameManager : MonoBehaviour {
                 RestartMenu.SetActive(true);
             }
         } else {
-            //TODO:: break box that would have killed the player
+            //if the player has a shield it will destroy the crate and delete the shield
+            Box.BreakBoxAt(PlayerController.pos);
+            PlayerController.hasShield = false;
         }
     }
     public void SubmitHighscore() {
