@@ -51,22 +51,23 @@ public class Box : MonoBehaviour {
 		{
 			int i = 0;
 			while (true){
-				Vector2 position = 	new Vector2(toInstantiate[0].transform.position.x,toInstantiate[0].transform.position.y);
-
-				Debug.Log("Creating box at" + position);
-
 				//instantiates the box and fills it in in the boxes array
-				boxes[(int)position.x, (int)position.y] = Instantiate(toInstantiate[0], shadows[0].transform.position, Quaternion.identity);
+				boxes[(int)shadows[0].transform.position.x, (int)shadows[0].transform.position.y] = Instantiate(toInstantiate[0], shadows[0].transform.position, Quaternion.identity);
 				toInstantiate.RemoveAt(0);
 				
 				Destroy(shadows[0]);
 				shadows.RemoveAt(0);
-				Debug.Log(shadows.Count);
 
 				i++;
 				if (toInstantiate.Count == 0) {break;}
 			}
 		}
+	}
+
+	public bool CanBreakBoxAt(Vector2 playerPosition, Vector2 position)
+	{
+
+		return false;
 	}
 
 	//breaks a box at a given position and a certain direction
@@ -113,4 +114,12 @@ public class Box : MonoBehaviour {
 	{
 		shadows.Add(Instantiate(crateShadow ,new Vector3(position.x + 0.5f,position.y + 0.5f , 0),Quaternion.identity));
 	}
+
+	
+    public static bool DoesCollideWithBox(Vector2 position)
+    {
+        if (Box.boxes[(int)position.x,(int)position.y] == null) { return false; }
+
+        return true;
+    }
 }
