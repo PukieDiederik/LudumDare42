@@ -8,11 +8,14 @@ public class Box : MonoBehaviour {
 	public static GameObject[,] boxes = new GameObject[GameManager.width, GameManager.height];
 
 	static List<GameObject> toInstantiate = new List<GameObject>();
-	static List<GameObject> shadows = new List<GameObject>();
+	public static List<GameObject> shadows = new List<GameObject>();
 	public GameObject crateShadowInspector;
 	public static GameObject crateShadow;
 
 	public static float spawnDelay;
+
+	public static float breakDelay = 1f;
+	public static float breakTimer = 1f;
 
 	void Start()
 	{
@@ -22,6 +25,7 @@ public class Box : MonoBehaviour {
 
 	public void Update()
 	{
+		breakTimer -= Time.deltaTime;
 		spawnDelay -= Time.deltaTime;
 		WaitForSpawning();
 	}
@@ -73,14 +77,19 @@ public class Box : MonoBehaviour {
 	//breaks a box at a given position and a certain direction
 	public static void BreakBoxAt(Vector2Int position)
 	{
-	Debug.Log("[BreakCrate] breaking box at: " + position);
+		if (breakTimer < 0 && boxes[position.x,position.y] != null)
+		{		
+			//actually destroys the box gameobject
+			Destroy(boxes[position.x, position.y]);
 
-		//actually destroys the box gameobject
-		Destroy(boxes[position.x, position.y]);
+			//makes sure that boxes[x,y] is empty
+			boxes[position.x, position.y] = null;
+			GameManager.Score += 10;
+			Debug.Log(GameManager.Score);
+			Debug.Log("added +10 score");
 
-		//makes sure that boxes[x,y] is empty
-		boxes[position.x, position.y] = null;
-        GameManager.Score += 10;
+			breakTimer = breakDelay;
+		}
 	}
 
 	//breaks a box from a given direction
