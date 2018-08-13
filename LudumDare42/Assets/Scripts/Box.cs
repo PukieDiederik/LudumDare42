@@ -84,11 +84,12 @@ public class Box : MonoBehaviour {
 	//breaks a box at a given position and a certain direction
 	public static void BreakBoxAt(Vector2Int position)
 	{
-        cbSound.Play();
+        
 		if (breakTimer < 0 && boxes[position.x,position.y] != null)
-		{		
-			//actually destroys the box gameobject
-			Destroy(boxes[position.x, position.y]);
+		{
+            cbSound.Play();
+            //actually destroys the box gameobject
+            Destroy(boxes[position.x, position.y]);
 
 			//makes sure that boxes[x,y] is empty
 			boxes[position.x, position.y] = null;

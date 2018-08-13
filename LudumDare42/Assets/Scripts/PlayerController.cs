@@ -5,14 +5,12 @@ public enum Directions { North, East, South, West}
 public class PlayerController : MonoBehaviour {
     SpriteRenderer sr;                                      //reference to the sprite renderer
     public Sprite[] sprites = new Sprite[4];                //Directional sprites, can be adjusted for extra player sprites
-    float speed = .15f;                                     //MovementSpeed
+    public static float speed = .15f;                                     //MovementSpeed
     float timer = 0;                                        //Timer for the next movement  
     Directions dir = Directions.North;                      //The direction in which the player is facing
     public static Vector2Int pos = new Vector2Int(0, 0);    //Position of the player starting at (0,0)
     public static bool hasShield = false;                   //Wether the player has a shield
     public static bool isDead = false;                      //Wether the player has passed away
-
-
     private void Start() {
         sr = this.GetComponent<SpriteRenderer>();
     }
